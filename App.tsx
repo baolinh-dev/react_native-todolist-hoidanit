@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
+  const [count, setCount] = useState<number>(0)
+
   return (
-    <View style={styles.container}> 
-      <View>
-        <Text style={styles.header}>xinchao</Text>
+    <View style={styles.container}>
+      <Text style = {{ fontSize: 40, fontWeight: "600"}}>
+        count: {count}
+      </Text>
+      <View> 
+        <Button color={"red"} title="Increase" onPress={() => setCount(count + 1)} />
       </View>
-      <Text style={styles.hello1}>Xin chào các bạn 1</Text>
-      <Text>Xin chào các bạn 2 </Text>
     </View>
   );
 }
@@ -18,16 +22,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  }, 
-  hello1: {  
-    color: "red",  
-    fontSize: 30, 
-    borderWidth: 1, 
-    borderColor: "blue", 
-    padding: 10
-  }, 
-  header: { 
-    fontSize: 30, 
-    fontWeight: "600"
-  }
+  },
 });
