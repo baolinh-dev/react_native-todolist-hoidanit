@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   Button,
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
@@ -35,17 +36,17 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 40, fontWeight: "600" }}>Hello world</Text>
-      <ScrollView>
-        {students.map((item) => {
+      <FlatList
+        data={students} 
+        renderItem={({ item }) => {
           return (
             <View
-              key={item.id}
               style={{
                 borderWidth: 1,
                 borderColor: "black",
                 borderRadius: 5,
                 padding: 10,
-                marginBottom: 10,
+                marginBottom: 10,  
               }}
             >
               <Text>{item.id}</Text>
@@ -53,8 +54,9 @@ export default function App() {
               <Text>{item.name}</Text>
             </View>
           );
-        })}
-      </ScrollView>
+        }}
+        keyExtractor={(item) => item.id.toString()} // Đảm bảo id là chuỗi
+      />
     </View>
   );
 }
