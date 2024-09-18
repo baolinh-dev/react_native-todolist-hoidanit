@@ -6,68 +6,95 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 
+interface ITodo {
+  id: number;
+  name: string;
+}
+
 export default function App() {
-  const [students, setStudents] = useState([
-    { id: 1, name: "Bao Linh", age: 18 },
-    { id: 2, name: "Eric", age: 17 },
-    { id: 3, name: "Cantona", age: 20 },
-    { id: 4, name: "John", age: 19 },
-    { id: 5, name: "Mike", age: 21 },
-    { id: 6, name: "Sarah", age: 22 },
-    { id: 7, name: "Emma", age: 18 },
-    { id: 8, name: "David", age: 20 },
-    { id: 9, name: "Olivia", age: 19 },
-    { id: 10, name: "Sophia", age: 17 },
-    { id: 11, name: "Liam", age: 20 },
-    { id: 12, name: "Noah", age: 21 },
-    { id: 13, name: "Mason", age: 18 },
-    { id: 14, name: "Ethan", age: 23 },
-    { id: 15, name: "Ava", age: 19 },
-    { id: 16, name: "Isabella", age: 20 },
-    { id: 17, name: "James", age: 22 },
-    { id: 18, name: "Logan", age: 18 },
-    { id: 19, name: "Lucas", age: 21 },
-    { id: 20, name: "Mia", age: 19 },
-  ]);
+  const [todo, setTodo] = useState("");
+  const [listTodo, setListTodo] = useState<ITodo[]>([]);
+
+  function randomInteger(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  const handleAddTodo = () => {
+    if (!todo) return;
+    setListTodo([...listTodo, { id: randomInteger(2, 10000), name: todo }]);
+    setTodo("");
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 40, fontWeight: "600" }}>Hello world</Text>
-      <FlatList
-        data={students} 
-        renderItem={({ item }) => {
-          return (
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: "black",
-                borderRadius: 5,
-                padding: 10,
-                marginBottom: 10,  
-              }}
-            >
-              <Text>{item.id}</Text>
-              <Text>{item.age}</Text>
-              <Text>{item.name}</Text>
-            </View>
-          );
-        }}
-        keyExtractor={(item) => item.id.toString()} // Đảm bảo id là chuỗi
-      />
+      {/* header */}
+      <Text style={styles.header}>To Do App</Text>
+      {/* form  */}
+      <View style={styles.body}>
+        <TextInput
+          value={todo}
+          style={styles.todoInput}
+          onChangeText={(value) => setTodo(value)}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleAddTodo}>
+          <Text style={styles.buttonText}>Click Me</Text>
+        </TouchableOpacity>
+      </View>
+      {/* list todo */}
+      <View style={styles.body}>
+        <FlatList 
+          keyExtractor={item => item.id + ""}
+          data={listTodo}
+          renderItem={({ item }) => {
+            return <Text style={styles.todoItem}>{item.name}</Text>;
+          }}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "green",
+    paddingHorizontal: 20,
+    textAlign: "center",
+    fontSize: 40,
+  },
   container: {
     paddingTop: 50,
-    paddingHorizontal: 20,
     flex: 1,
     backgroundColor: "#fff",
     // alignItems: "center",
     // justifyContent: "center",
+  },
+  todoInput: {
+    borderWidth: 1,
+    borderBlockColor: "blue",
+    padding: 10,
+    marginHorizontal: 15,
+    margin: 15,
+  },
+  todoItem: {
+    fontSize: 24,
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 10,
+  },
+  body: {
+    paddingHorizontal: 10,
+  },
+  button: {
+    backgroundColor: "#841584", // Màu nền của button
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff", // Màu chữ của button
+    fontSize: 16,
   },
 });
