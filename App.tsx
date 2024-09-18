@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   Button,
   FlatList,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -29,6 +30,11 @@ export default function App() {
     setTodo("");
   };
 
+  const handleDeleteTodo = (id: number) => {
+    const newTodos = listTodo.filter((item) => item.id !== id);
+    setListTodo(newTodos);
+  };
+
   return (
     <View style={styles.container}>
       {/* header */}
@@ -46,11 +52,18 @@ export default function App() {
       </View>
       {/* list todo */}
       <View style={styles.body}>
-        <FlatList 
-          keyExtractor={item => item.id + ""}
+        <FlatList
+          keyExtractor={(item) => item.id + ""}
           data={listTodo}
           renderItem={({ item }) => {
-            return <Text style={styles.todoItem}>{item.name}</Text>;
+            return (
+              <Pressable
+                style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1.0 }]}
+                onPress={() => handleDeleteTodo(item.id)}
+              >
+                <Text style={styles.todoItem}>{item.name}</Text>
+              </Pressable>
+            );
           }}
         />
       </View>
@@ -92,6 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#841584", // Màu nền của button
     padding: 10,
     borderRadius: 5,
+    marginBottom: 20,
   },
   buttonText: {
     color: "#fff", // Màu chữ của button
