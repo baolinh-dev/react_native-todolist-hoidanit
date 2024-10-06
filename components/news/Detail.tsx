@@ -1,9 +1,10 @@
 import { Text, View, StyleSheet} from "react-native" 
+import { OPENSANS } from "../../utils/const"
 
 const styles = StyleSheet.create({
     text: {
         fontSize: 40, 
-        fontFamily: 'OpenSans'
+        fontFamily: OPENSANS
     }
 }
 )
