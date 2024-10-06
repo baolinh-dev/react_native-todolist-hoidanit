@@ -25,10 +25,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontFamily: 'OpenSans', fontSize: 30 }}>Open Sans</Text>
-      <Home /> 
       <Detail /> 
-      <News />
     </View>
   );
 }
